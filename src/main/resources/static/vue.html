@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+    <style>
+        .luck{
+            border: 33px;
+            color: red;
+            background-color: aqua;
+        }
+    </style>
+</head>
+<body>
+<!--
+  v-bind:标签属性
+  v-html:在标签内生成一个标签
+  v-model:双向绑定
+  v-if 控制标签
+  v-show 和if不同的区别是if条件未假dom会被在页面删除，show不会只是隐藏显示
+  v-for dom和对象的遍历     v-for((变量名,下标) in 数组变量 )
+
+
+-->
+<div id="app">
+
+    <span>{{ message }}</span>
+    <span>{{huck}}</span>
+</div>
+<div id="app-2">
+  <span v-bind:title="message">
+    鼠标悬停几秒钟查看此处动态绑定的提示信息！
+  </span>
+</div>
+<div id="app-3">
+    <p v-if="seen">现在你看到我了</p>
+</div>
+<div id="app-4">
+    <ol>
+        <li v-for="todo in todos">
+            {{ todo.text }}
+        </li>
+    </ol>
+</div>
+<div id="app-5">
+    <p>{{ message }}</p>
+    <button @click="reverseMessage();kk()">逆转消息</button>
+</div>
+<div id="app-6"  @click="changecolor" >
+    <span >显示内容:{{huck}}</span><br>
+    <input   @keyup.enter="jj()" v-model="huck" type="text">
+    <p>{{ee()}}</p>
+    <p>{{jj()}}</p>
+    <button @click="age++" >按a</button>
+    <span >{{age}}</span>
+    <div  v-on:mousemove="mouse" v-bind:class="{luck:hzuck}" style="border:2px;solid-color: red;text-align: center">{{x}},{{y}}</div>
+</div>
+
+</body>
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'Hello Vue!',
+            huck:'jkjkl'
+        }
+    })
+    var app2 = new Vue({
+        el: '#app-2',
+        data: {
+            message: '页面加载于 ' + new Date().toLocaleString()
+        }
+    })
+
+    var app3 = new Vue({
+        el: '#app-3',
+        data: {
+            seen: true
+        }
+    })
+    var app4 = new Vue({
+        el: '#app-4',
+        data: {
+            todos: [
+                { text: '学习 JavaScript' },
+                { text: '学习 Vue' },
+                { text: '整个牛项目' }
+            ]
+        }
+    })
+    var app5 = new Vue({
+        el: '#app-5',
+        data: {
+            message: 'Hello Vue.js!'
+        },
+        methods: {
+            kk:function () {
+                console.log("huck")
+            },
+            reverseMessage: function () {
+                this.message = this.message.split('').reverse().join('')
+            }
+        }
+    })
+    var app6= new Vue({
+         el:"#app-6",
+         data:{
+             huck:"哈哈哈",
+             age:1,
+             x:0,
+             y:0,
+             hzuck:true
+         },
+         methods: {
+             ee: function (value) {
+                 this.huck = "dsf";
+                 console.log("ee");
+             },
+             jj: function () {
+                 console.log("jj");
+             },
+             mouse: function (event) {
+                 // console.log(event);
+                 this.x=event.offsetX;
+                 this.y=event.offsetY;
+             },
+             changecolor:function () {
+                 this.hzuck=!this.hzuck;
+             }
+
+         },
+        computed:{
+             jfj:function () {
+                 alert("conputed");
+             }
+        }
+
+     });
+</script>
+</html>
