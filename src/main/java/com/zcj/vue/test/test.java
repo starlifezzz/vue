@@ -1,12 +1,16 @@
 package com.zcj.vue.test;
 
 
+
+import com.zcj.vue.springcode.sonb;
+import com.zcj.vue.springcode.springIOP;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class test {
+public class test extends Object{
 
 
     public static void main(String[] args) {
@@ -18,7 +22,10 @@ public class test {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        isPalindrome(10101);
+//        isPalindrome(10101);
+//        System.out.println(reverse(-2147483648));
+     springIOP springIOP=new springIOP(new sonb());
+     springIOP.jklj();
     }
 
 
@@ -71,17 +78,63 @@ public class test {
     }
 
     //整数反转
-    public int reverse(int x) {
+    public static int reverse(int x) {
         List<Integer> num = new ArrayList<>();
         int i = 1;
-        if (x >= 0) {
+        int shijinum = 0;
+        int weishu = 1;
+        if (x >= Integer.MAX_VALUE || x <= Integer.MIN_VALUE || x == 0) {
+            return 0;
+        }
+        if (x > 0) {
             while (i > 0) {
                 num.add(x % 10);
                 x = x / 10;
                 i = x;
             }
+            if (num.get(0) == 0) {
+                num.remove(0);
+            }
+            for (int nm = 0; nm < num.size() - 1; nm++) {
+                weishu *= 10;
+            }
+            for (int uu = weishu, ll = 0, fanbi = num.size() - 1; uu >= 1; uu /= 10) {
+                if (Integer.MAX_VALUE / uu % 10 < num.get(ll) && num.size() == 10) {
+                    return 0;
+                }
+                shijinum += num.get(ll) * uu;
+                ll++;
+                fanbi--;
+            }
+            return shijinum;
+        } else {
+            x = -x;
+            while (i > 0) {
+                num.add(x % 10);
+                x = x / 10;
+                i = x;
+            }
+            if (num.get(0) == 0) {
+                num.remove(0);
+            }
+            for (int nm = 0; nm < num.size() - 1; nm++) {
+                weishu *= 10;
+            }
+            for (int uu = weishu, ll = 0; uu >= 1; uu /= 10) {
+                if (num.size() == 10) {
+                    try {
+                        Math.addExact(shijinum, num.get(ll) * uu);
+//                        Math.multiplyExact(-num.get(ll), uu);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return 0;
+                    }
+                }
+                shijinum += num.get(ll) * uu;
+                ll++;
+            }
+            return -shijinum;
         }
-        return x;
     }
 
 }
