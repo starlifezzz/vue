@@ -24,7 +24,6 @@
 
 -->
 <div id="app">
-
     <span>{{ message }}</span>
     <span>{{huck}}</span>
 </div>
@@ -56,7 +55,7 @@
     <span >{{age}}</span>
     <div  v-on:mousemove="mouse" v-bind:class="{luck:hzuck}" style="border:2px;solid-color: red;text-align: center">{{x}},{{y}}</div>
 </div>
-
+<input id="app-7" @click="ff">
 </body>
 <script>
     var app = new Vue({
@@ -135,7 +134,18 @@
                  alert("conputed");
              }
         }
-
      });
+
+    var app7=new Vue({
+        el:"#app-7",
+        data:{
+            luck:"哇哈哈"
+        },
+        methods:{
+            ff:function () {
+                alert(app5.message);
+            }
+        }
+    });
 </script>
 </html>
