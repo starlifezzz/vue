@@ -6,10 +6,9 @@
 </head>
 <body>
 <button hidden=hidden name="last" type="button">上一步</button>
-<div id="kk">
-
-    <span id="ff">dfs</span>
-</div>
+<div id="picture"></div>
+<span id="ff">文件夹</span>
+<div id="kk"></div>
 
 </body>
 <script src="js/jquery-3.4.1.min.js"></script>
@@ -55,11 +54,24 @@
 
     function putdata(res) {
         $("#kk").html("");
+        $("#picture").html("");
         for (var key in res[1]) {
             //查看效果
             // msg = msg + "key = " + key + ",value = " + res[key] + "\n";
-            var url = res[1][key].replace(/\\/g, "%2F");
-            $("#kk").append('<a name="file" href="/getfile?filepath=' + url + '" datatype="file">' + key + '</a>');
+            // if(res[1][key].endWidth(".jpg")){
+            // }
+            var picture = '';
+            var dictorylist = '';
+            var file = res[1][key];
+            if (file.indexOf(".jpg") > 0 || file.indexOf(".png") > 0) {
+                var url = res[1][key].replace(/\\/g, "%2F");
+                picture += '<a name="file" href="/getfile?filepath=' + url + '" datatype="file"><img width="100px" height="80px" src="/getfile?filepath=' + url + '"><a/>';
+            } else {
+                var url = res[1][key].replace(/\\/g, "%2F");
+                dictorylist += '<a name="file" href="/getfile?filepath=' + url + '" datatype="file">' + key + '</a>';
+            }
+            $("#kk").append(dictorylist);
+            $("#picture").append(picture);
         }
         for (var key in res[0]) {
             //查看效果
