@@ -17,15 +17,14 @@
 <script>
     getfilelist();
 
-    function getfilelist() {
+    function getfilelist(data) {
         $.ajax({
             url: "/file",
             type: "post",
+            data: {filepath: data},
             success: function (res) {
+                $("button[name='last']").attr('url', res[1]["now"]);
                 putdata(res);
-                $("button[name='last']").bind("click", function () {
-                    alert($(this).attr("url"));
-                });
             }
         });
     }
@@ -42,22 +41,20 @@
             //         console.log(res)
             //     }
             // });
-            $.ajax({
-                url: "/file",
-                type: "post",
-                data: {filepath: $(this).attr("datatype")},
-                success: function (res) {
-                    putdata(res);
-                }
-            });
+            getfilelist($(this).attr("datatype"));
+            // $.ajax({
+            //     url: "/file",
+            //     type: "post",
+            //     data: {filepath: $(this).attr("datatype")},
+            //     success: function (res) {
+            //         putdata(res);
+            //     }
+            // });
         });
-
-
     }
 
     function putdata(res) {
         $("#kk").html("");
-        $("button[name='last']").attr('url', res[1]["now"]);
         for (var key in res[1]) {
             //查看效果
             // msg = msg + "key = " + key + ",value = " + res[key] + "\n";
@@ -67,11 +64,15 @@
         for (var key in res[0]) {
             //查看效果
             // msg = msg + "key = " + key + ",value = " + res[key] + "\n";
-            var url = res[0][key].replace(/\\/g, "%2F");
+            var url = res[0][key].replace(/ /g, "");
             $("#kk").append('<div><img height="20px" width="30px" src="img/file.jpg"><a name="dictory" href="javascript:" datatype=' + res[0][key] + '>' + key + '</a></div>');
         }
         dictoryclick();
     }
+
+    $("button[name='last']").bind("click", function () {
+        getfilelist($(this).attr("url"));
+    });
 
 </script>
 </html>

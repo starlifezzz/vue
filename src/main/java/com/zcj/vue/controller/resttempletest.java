@@ -26,14 +26,21 @@ public class resttempletest {
     public List filelist(String filepath) throws FileNotFoundException {
         List list = new ArrayList();
         File file = new File("E://");
-        if (filepath != null) {
-            file = new File(filepath);
-        }
-
-        File[] files = file.listFiles();
         Map filemap = new HashMap();
         Map dictorymap = new HashMap();
-        dictorymap.put("now", file.getPath());
+        if (filepath != null) {
+            file = new File(filepath);
+
+            try {
+                dictorymap.put("now", file.getParentFile().getPath());
+            } catch (Exception e) {
+                e.printStackTrace();
+                dictorymap.put("now", filepath);
+            }
+        }
+        File[] files = file.listFiles();
+
+
         for (File file1 : files) {
             if (file1.isDirectory()) {
                 filemap.put(file1.getName(), file1.getPath());
