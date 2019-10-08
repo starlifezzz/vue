@@ -5,7 +5,9 @@
     <title>Title</title>
 </head>
 <body>
+<button hidden=hidden name="last" type="button">上一步</button>
 <div id="kk">
+
     <span id="ff">dfs</span>
 </div>
 
@@ -13,37 +15,63 @@
 <script src="js/jquery-3.4.1.min.js"></script>
 
 <script>
-    $.ajax({
-        url: "/file",
-        type: "post",
-        success: function (res) {
-            for (var key in res[1]) {
-                //查看效果
-                // msg = msg + "key = " + key + ",value = " + res[key] + "\n";
-                var url = res[1][key].replace(/\\/g, "%2F");
-                $("#kk").append('<a name="file" href="/getfile?filepath=' + url + '" datatype="file">' + key + '</a>');
+    getfilelist();
+
+    function getfilelist() {
+        $.ajax({
+            url: "/file",
+            type: "post",
+            success: function (res) {
+                putdata(res);
+                $("button[name='last']").bind("click", function () {
+                    alert($(this).attr("url"));
+                });
             }
+        });
+    }
 
 
-            for (var key in res[0]) {
-                //查看效果
-                // msg = msg + "key = " + key + ",value = " + res[key] + "\n";
-                var url = res[0][key].replace(/\\/g, "%2F");
-                $("#kk").append('<div><img height="20px" width="30px" src="img/file.jpg"><a name="file" href="/getfile?filepath=' + url + '" datatype="dictory">' + key + '</a></div>');
-            }
-            // $("a[name='file']").bind("click", function () {
-            //     $.ajax({
-            //         url: "/getfile",
-            //         type: "post",
-            //         data: {filepath: $(this).attr("datatype")},
-            //         success: function (res) {
-            //             console.log(res)
-            //         }
-            //     });
+    function dictoryclick() {
+        $("a[name='dictory']").bind("click", function () {
+            $("button[name='last']").removeAttr("hidden");
+            // $.ajax({
+            //     url: "/getfile",
+            //     type: "post",
+            //     data: {filepath: $(this).attr("datatype")},
+            //     success: function (res) {
+            //         console.log(res)
+            //     }
             // });
-        }
-    });
+            $.ajax({
+                url: "/file",
+                type: "post",
+                data: {filepath: $(this).attr("datatype")},
+                success: function (res) {
+                    putdata(res);
+                }
+            });
+        });
 
+
+    }
+
+    function putdata(res) {
+        $("#kk").html("");
+        $("button[name='last']").attr('url', res[1]["now"]);
+        for (var key in res[1]) {
+            //查看效果
+            // msg = msg + "key = " + key + ",value = " + res[key] + "\n";
+            var url = res[1][key].replace(/\\/g, "%2F");
+            $("#kk").append('<a name="file" href="/getfile?filepath=' + url + '" datatype="file">' + key + '</a>');
+        }
+        for (var key in res[0]) {
+            //查看效果
+            // msg = msg + "key = " + key + ",value = " + res[key] + "\n";
+            var url = res[0][key].replace(/\\/g, "%2F");
+            $("#kk").append('<div><img height="20px" width="30px" src="img/file.jpg"><a name="dictory" href="javascript:" datatype=' + res[0][key] + '>' + key + '</a></div>');
+        }
+        dictoryclick();
+    }
 
 </script>
 </html>

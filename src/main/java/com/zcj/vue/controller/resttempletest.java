@@ -23,12 +23,17 @@ public class resttempletest {
 
     @RequestMapping("/file")
     @ResponseBody
-    public List filelist() throws FileNotFoundException {
+    public List filelist(String filepath) throws FileNotFoundException {
         List list = new ArrayList();
         File file = new File("E://");
+        if (filepath != null) {
+            file = new File(filepath);
+        }
+
         File[] files = file.listFiles();
         Map filemap = new HashMap();
         Map dictorymap = new HashMap();
+        dictorymap.put("now", file.getPath());
         for (File file1 : files) {
             if (file1.isDirectory()) {
                 filemap.put(file1.getName(), file1.getPath());
