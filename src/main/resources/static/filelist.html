@@ -22,7 +22,7 @@
             type: "post",
             data: {filepath: data},
             success: function (res) {
-                $("button[name='last']").attr('url', res[1]["now"]);
+                $("button[name='last']").attr('url', res[2]);
                 putdata(res);
             }
         });

@@ -28,14 +28,16 @@ public class resttempletest {
         File file = new File("E://");
         Map filemap = new HashMap();
         Map dictorymap = new HashMap();
+        String path = "";
         if (filepath != null) {
             file = new File(filepath);
-
             try {
-                dictorymap.put("now", file.getParentFile().getPath());
+//                dictorymap.put("now", file.getParentFile().getPath());
+                path = file.getParentFile().getPath();
             } catch (Exception e) {
                 e.printStackTrace();
-                dictorymap.put("now", filepath);
+//                dictorymap.put("now", filepath);
+                path = filepath;
             }
         }
         File[] files = file.listFiles();
@@ -51,6 +53,7 @@ public class resttempletest {
         }
         list.add(filemap);
         list.add(dictorymap);
+        list.add(path);
         return list;
     }
 
