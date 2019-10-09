@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,17 +29,22 @@ public class resttempletest {
         File file = new File("E://");
         Map filemap = new HashMap();
         Map dictorymap = new HashMap();
-        String path = "";
+        String nowpath = "";
+        String lastpath = "";
         if (filepath != null) {
             file = new File(filepath);
             try {
 //                dictorymap.put("now", file.getParentFile().getPath());
-                path = file.getParentFile().getPath();
+                lastpath = file.getParentFile().getPath();
+                nowpath = filepath;
             } catch (Exception e) {
                 e.printStackTrace();
 //                dictorymap.put("now", filepath);
-                path = filepath;
+                lastpath = filepath;
+                nowpath = filepath;
             }
+        } else {
+            nowpath = file.getPath();
         }
         File[] files = file.listFiles();
 
@@ -53,7 +59,8 @@ public class resttempletest {
         }
         list.add(filemap);
         list.add(dictorymap);
-        list.add(path);
+        list.add(lastpath);
+        list.add(nowpath);
         return list;
     }
 
@@ -84,4 +91,26 @@ public class resttempletest {
             }
         }
     }
+
+    @ResponseBody
+    @RequestMapping("/upload")
+    public Map uploadfile(@RequestParam("multipartFile") MultipartFile[] multipartFile, String savepath) throws IOException {
+        Map relsout = new HashMap();
+        OutputStream outputStream = null;
+        try {
+            for (MultipartFile multipartFile1 : multipartFile) {
+                File file = new File(savepath + "\\" + multipartFile1.getOriginalFilename());
+                outputStream = new FileOutputStream(file);
+                byte[] bytes = multipartFile1.getBytes();
+                outputStream.write(bytes);
+            }
+        } finally {
+            outputStream.flush();
+            outputStream.close();
+        }
+        relsout.put("resoult", true);
+        relsout.put("showpath", savepath);
+        return relsout;
+    }
+
 }

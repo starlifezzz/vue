@@ -5,9 +5,14 @@
     <title>Title</title>
 </head>
 <body>
+选择多个文件: <input id="filelist" multiple="multiple" name="img" type="file"/>
+<button name="sub" type="button">提交</button>
 <button hidden=hidden name="last" type="button">上一步</button>
+<br>
+<h4>图片</h4>
 <div id="picture"></div>
-<span id="ff">文件夹</span>
+<span id="ff">文件:</span>
+<input name="nowpath">
 <div id="kk"></div>
 
 </body>
@@ -23,6 +28,7 @@
             data: {filepath: data},
             success: function (res) {
                 $("button[name='last']").attr('url', res[2]);
+                $("input[name='nowpath']").val(res[3]);
                 putdata(res);
             }
         });
@@ -57,10 +63,10 @@
             var file = res[1][key];
             if (file.indexOf(".jpg") > 0 || file.indexOf(".png") > 0) {
                 var url = res[1][key].replace(/\\/g, "%2F");
-                picture += '<a name="file" href="/getfile?filepath=' + url + '" datatype="file"><img width="100px" height="80px" src="/getfile?filepath=' + url + '"><a/>';
+                picture += '<a name="file" href="/getfile?filepath=' + url + '" datatype="file"><img width="100px" height="80px" src="/getfile?filepath=' + url + '"><a/>&nbsp;&nbsp;';
             } else {
                 var url = res[1][key].replace(/\\/g, "%2F");
-                dictorylist += '<a name="file" href="/getfile?filepath=' + url + '" datatype="file">' + key + '</a>';
+                dictorylist += '<a name="file" href="/getfile?filepath=' + url + '" datatype="file">' + key + '</a>&nbsp; &nbsp; ';
             }
             $("#kk").append(dictorylist);
             $("#picture").append(picture);
@@ -77,6 +83,33 @@
     $("button[name='last']").bind("click", function () {
         getfilelist($(this).attr("url"));
     });
+
+    // $("#filelist").bind("change",function () {
+    //     alert("jklj")
+    // });
+
+    $("button[name='sub']").bind("click", function () {
+        var kkk = new FormData();
+        var filearr = new Array();
+        for (var i = 0; i < $("#filelist").get(0).files.length; i++) {
+            // filearr.push($("#filelist").get(0).files[i]);
+            kkk.append("multipartFile", $("#filelist").get(0).files[i]);
+        }
+        kkk.append("savepath", $("input[name='nowpath']").val() + "\\");
+        $.ajax({
+            url: "/upload",
+            type: "post",
+            data: kkk,
+            contentType: false,
+            processData: false,
+            success: function (res) {
+                console.log(res)
+                if (res.resoult) {
+                    getfilelist(res.showpath);
+                }
+            }
+        });
+    })
 
 </script>
 </html>
