@@ -79,8 +79,8 @@
         for (var key in res[0]) {
             //查看效果
             // msg = msg + "key = " + key + ",value = " + res[key] + "\n";
-            var url = res[0][key].replace(/ /g, "");
-            $("#kk").append('<div><img height="20px" width="30px" src="img/file.jpg"><a name="dictory" href="javascript:" datatype=' + res[0][key] + '>' + key + '</a></div>');
+            var url = res[0][key].replace(/ /g, "&nbsp;");
+            $("#kk").append('<div><img height="20px" width="30px" src="img/file.jpg"><a name="dictory" href="javascript:" datatype=' + url + '>' + key + '</a></div>');
         }
         dictoryclick();
     }

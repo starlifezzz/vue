@@ -21,7 +21,7 @@ public class resttempletest {
 
     @RequestMapping("/file")
     @ResponseBody
-    public List filelist(String filepath) throws FileNotFoundException {
+    public List filelist(String filepath) {
         List list = new ArrayList();
         File file = new File("E://");
         Map filemap = new HashMap();
@@ -29,6 +29,7 @@ public class resttempletest {
         String nowpath = "";
         String lastpath = "";
         if (filepath != null) {
+            filepath = filepath.replaceAll(" ", " ");
             file = new File(filepath);
             try {
 //                dictorymap.put("now", file.getParentFile().getPath());
@@ -130,4 +131,12 @@ public class resttempletest {
         return peizhi;
     }
 
+    @RequestMapping("/test")
+    public void test() {
+        File file = new File("E:\\NetSarang Computer".toString());
+        File[] files = file.listFiles();
+        for (File file1 : files) {
+            System.out.println(file.getName());
+        }
+    }
 }
