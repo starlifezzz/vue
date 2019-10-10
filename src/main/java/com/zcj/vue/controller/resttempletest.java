@@ -128,8 +128,6 @@ public class resttempletest {
         outputStream.flush();
         outputStream.close();
         return peizhi;
-
-
     }
 
 }
