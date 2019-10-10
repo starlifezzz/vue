@@ -9,10 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class resttempletest {
@@ -35,7 +32,8 @@ public class resttempletest {
             file = new File(filepath);
             try {
 //                dictorymap.put("now", file.getParentFile().getPath());
-                lastpath = file.getParentFile().getPath();
+
+                lastpath = file.getParentFile() != null ? file.getParentFile().getPath() : filepath;
                 nowpath = filepath;
             } catch (Exception e) {
                 e.printStackTrace();
@@ -47,8 +45,6 @@ public class resttempletest {
             nowpath = file.getPath();
         }
         File[] files = file.listFiles();
-
-
         for (File file1 : files) {
             if (file1.isDirectory()) {
                 filemap.put(file1.getName(), file1.getPath());
@@ -69,7 +65,6 @@ public class resttempletest {
         File file = new File(filepath);
         response.setHeader("Content-Disposition", "attachment;filename=" + file.getName());
         response.setContentType("application/octet-stream;charset=UTF-8");
-
         byte[] buff = new byte[1024];
         BufferedInputStream bis = null;
         OutputStream os = null;
@@ -111,6 +106,30 @@ public class resttempletest {
         relsout.put("resoult", true);
         relsout.put("showpath", savepath);
         return relsout;
+    }
+
+
+    @RequestMapping("/editproperties")
+    @ResponseBody
+    public Map editproperties() throws IOException {
+        Properties properties = new Properties();
+        File file = new File("");
+        Map<String, String> peizhi = new HashMap<>();
+        String filePath = file.getCanonicalPath();
+        System.out.println(filePath + "/src/resource/static/jdbc.properties");
+        InputStream inputStream = new FileInputStream(new File(filePath + "\\src\\main\\resources\\static\\jdbc.properties"));
+        properties.load(inputStream);
+        properties.forEach((key, value) -> {
+            peizhi.put(key.toString(), value.toString());
+        });
+        properties.setProperty("fuck", "122333");
+        OutputStream outputStream = new FileOutputStream(new File(filePath + "\\src\\main\\resources\\static\\jdbc.properties"));
+        properties.store(outputStream, "");
+        outputStream.flush();
+        outputStream.close();
+        return peizhi;
+
+
     }
 
 }

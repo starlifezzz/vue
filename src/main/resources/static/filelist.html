@@ -5,15 +5,19 @@
     <title>Title</title>
 </head>
 <body>
-选择多个文件: <input id="filelist" multiple="multiple" name="img" type="file"/>
-<button name="sub" type="button">提交</button>
-<button hidden=hidden name="last" type="button">上一步</button>
-<br>
-<h4>图片</h4>
-<div id="picture"></div>
-<span id="ff">文件:</span>
-<input name="nowpath">
-<div id="kk"></div>
+<div>
+    选择多个文件: <input id="filelist" multiple="multiple" name="img" type="file"/>
+    <button name="sub" type="button">提交</button>
+    <br>
+    <button hidden=hidden name="last" type="button">上一步</button>
+    <br>
+    <h4>图片</h4>
+    <div id="picture"></div>
+    <span>文件:</span>
+    <input hidden="hidden" name="nowpath">
+    <div id="kk"></div>
+</div>
+
 
 </body>
 <script src="js/jquery-3.4.1.min.js"></script>
@@ -70,6 +74,7 @@
             }
             $("#kk").append(dictorylist);
             $("#picture").append(picture);
+
         }
         for (var key in res[0]) {
             //查看效果
