@@ -55,7 +55,7 @@
     <span >{{age}}</span>
     <div  v-on:mousemove="mouse" v-bind:class="{luck:hzuck}" style="border:2px;solid-color: red;text-align: center">{{x}},{{y}}</div>
 </div>
-<input id="app-7" @click="ff">
+<input id="app-7" @click="ff" v-model="luck">
 </body>
 <script>
     var app = new Vue({
@@ -64,20 +64,20 @@
             message: 'Hello Vue!',
             huck:'jkjkl'
         }
-    })
+    });
     var app2 = new Vue({
         el: '#app-2',
         data: {
             message: '页面加载于 ' + new Date().toLocaleString()
         }
-    })
+    });
 
     var app3 = new Vue({
         el: '#app-3',
         data: {
             seen: true
         }
-    })
+    });
     var app4 = new Vue({
         el: '#app-4',
         data: {
@@ -87,7 +87,7 @@
                 { text: '整个牛项目' }
             ]
         }
-    })
+    });
     var app5 = new Vue({
         el: '#app-5',
         data: {
@@ -101,7 +101,7 @@
                 this.message = this.message.split('').reverse().join('')
             }
         }
-    })
+    });
     var app6= new Vue({
          el:"#app-6",
          data:{
