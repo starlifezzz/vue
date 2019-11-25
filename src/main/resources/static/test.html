@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.min.js"></script>
+</head>
+<body>
+<div class="test1">
+    <span>{{alertf}}</span>
+</div>
+<div id="shuru">
+    <span>{{inf}}</span>
+    <input :id="inf" :style="[w,h]" v-model="inf">
+</div>
+
+</body>
+
+<script>
+    var ff = new Vue({
+        el: '.test1',
+        data: {
+            alertf: "哇哈哈"
+        }
+    });
+
+    var shuru = new Vue({
+        el: '#shuru',
+        data: {
+            inf: 'ff'
+            , w: {width:'90px'}
+            , h: {height:'90px'}
+            , height: 90
+            , width: 88
+        }
+    });
+
+</script>
+</html>

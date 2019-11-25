@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+</head>
+<script src="js/vue.min.js"></script>
+
+<body>
+<div id="username">
+    <input @click="aa" @keyup="move" v-model="f">
+    <p :style="{fontSize:styl}">{{answer}}</p>
+    <!--    <p v-for="item in data">{{item}}</p>-->
+    <a v-bind:href="item" v-for="item,index in date">{{index}}</a>
+    <input multiple="multiple" type="file" v-model="answer">
+    <button @click="submit" type="button">提交</button>
+</div>
+<p id="ll">{{aa}},{{bb}}</p>
+</body>
+<script>
+    var data = {
+        k: 0,
+        f: "sfsfdsf",
+        answer: "请输入",
+        styl: '20px',
+        date: [],
+        file: null
+    };
+    var username = new Vue({
+            el: "#username",
+            data: data,
+            methods:
+                {
+                    aa: function () {
+                        return "jkljkl";
+                    }
+                    ,
+                    move: function () {
+                        this.answer = "请输入";
+                    },
+                    submit: function () {
+                        var kk = this;
+                        // axios
+                        //     .post('/file', {//post提交
+                        //         // firstName: 'Fred',        // 参数 firstName
+                        //         // lastName: 'Flintstone'    // 参数 lastName
+                        //     })
+                        //     .then(function (response) {//成功后执行的方法并返回response
+                        //         response.data.forEach(function (v) {
+                        //             console.log(v)
+                        //             kk.date.push(v);
+                        //         });
+                        //     })
+                        //     .catch(function (error) {//错误方法
+                        //         console.log(error);
+                        //     });
+
+                        var formdata = new FormData();
+                        formdata.append("multipartFile", this.file);
+                        formdata.append("savepath", "D:\\");
+                        axios({
+                            method: 'post',
+                            url: '/upload',
+                            data: {
+                                formdata
+                            },
+                            transformRequest: [function (data) {
+                                let ret = '';
+                                for (let it in data) {
+                                    ret += encodeURIComponent(it) + '=' + encodeURIComponent(data[it]) + '&'
+                                }
+                                return ret
+                            }],
+                        }).then(function (response) {//成功后执行的方法并返回response
+                            response.data.forEach(function (v) {
+                                console.log(v)
+                                kk.date.push(v);
+                            });
+                        }).catch(function (error) {//错误方法
+                            console.log(error);
+                        });
+
+                    },
+                }
+            ,
+            watch: {
+                f: function (a, b) {
+                    this.answer = "等你停下";
+                }
+                , el: function () {
+                    alert("fsf")
+                },
+            }
+        })
+    ;
+
+    var ll = new Vue({
+            el: "#ll",
+            data: {
+                aa: "alert()",
+                bb: Date.now()
+
+            }
+        })
+    ;
+</script>
+
+</html>
