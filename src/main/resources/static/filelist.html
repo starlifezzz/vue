@@ -6,7 +6,8 @@
 </head>
 <body>
 <div>
-    选择多个文件: <input id="filelist" multiple="multiple" name="img" type="file"/>
+    <img width="20" height="20" src="img/本地上传.png">
+    <input id="filelist" multiple="multiple" name="img" type="file"/>
     <button name="sub" type="button">提交</button>
     <br>
     <button hidden=hidden name="last" type="button">上一步</button>
@@ -70,7 +71,7 @@
                 picture += '<a name="file" href="/getfile?filepath=' + url + '" datatype="file"><img width="100px" height="80px" src="/getfile?filepath=' + url + '"><a/>&nbsp;&nbsp;';
             } else {
                 var url = res[1][key].replace(/\\/g, "%2F");
-                dictorylist += '<a name="file" href="/getfile?filepath=' + url + '" datatype="file">' + key + '</a>&nbsp; &nbsp; ';
+                dictorylist += '<img height="15px" width="15px" src="img/Document.png"><a name="file" href="/getfile?filepath=' + url + '" datatype="file">' + key + '</a>&nbsp; &nbsp; ';
             }
             $("#kk").append(dictorylist);
             $("#picture").append(picture);

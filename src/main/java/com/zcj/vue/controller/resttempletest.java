@@ -1,6 +1,7 @@
 package com.zcj.vue.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,6 +13,7 @@ import java.io.*;
 import java.util.*;
 
 @Controller
+@CrossOrigin
 public class resttempletest {
 
     @RequestMapping("/rest")
@@ -131,12 +133,21 @@ public class resttempletest {
         return peizhi;
     }
 
+    /**
+     * @return
+     */
     @RequestMapping("/test")
-    public void test() {
-        File file = new File("E:\\NetSarang Computer".toString());
+    @ResponseBody
+    public List test() {
+        List list = new ArrayList();
+        File file = new File("E:\\NetSarang Computer");
         File[] files = file.listFiles();
         for (File file1 : files) {
+            list.add(file.getName());
+            list.add(file.getPath());
             System.out.println(file.getName());
         }
+        return list;
     }
+
 }
