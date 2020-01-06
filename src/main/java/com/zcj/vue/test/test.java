@@ -10,13 +10,15 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 public class test extends Object {
 
 
     public static void main(String[] args) {
 //        filedigui("D:\\d");
-//        filedigui("E:\\");
+        filedigui("E:\\");
 //        打开windows任意exe程序
 //        try {
 //            Runtime.getRuntime().exec("E:\\ThunderX\\Program\\Thunder.exe");
