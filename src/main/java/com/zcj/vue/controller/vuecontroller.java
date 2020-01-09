@@ -1,16 +1,20 @@
 package com.zcj.vue.controller;
 
 
-import com.zcj.vue.entity.StudentExample;
+import com.zcj.vue.entity.WeloveMenu;
 import com.zcj.vue.entity.menu;
 import com.zcj.vue.entity.user;
 import com.zcj.vue.mapper.StudentDao;
 import com.zcj.vue.mapper.UserMapper;
+import com.zcj.vue.mapper.WeloveMenuDao;
 import com.zcj.vue.springcode.sona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 
 @CrossOrigin
@@ -19,14 +23,16 @@ import java.util.*;
 public class vuecontroller {
     private final UserMapper userMapper;
     private final StudentDao studentDao;
+    private final WeloveMenuDao weloveMenuDao;
 
     @Autowired
-    public vuecontroller(UserMapper userMapper, StudentDao studentDao) {
+
+    public vuecontroller(UserMapper userMapper, StudentDao studentDao, WeloveMenuDao weloveMenuDao) {
         this.userMapper = userMapper;
         this.studentDao = studentDao;
+        this.weloveMenuDao = weloveMenuDao;
     }
 
-    @Autowired
 
     /**
      * @return
@@ -126,19 +132,19 @@ public class vuecontroller {
     }
 
     /**
-     * 返回菜单接口
+     * 添加数据接口
      *
      * @return 菜单列表
      */
-    @RequestMapping("/getmenu")
-    public Map getmenu() {
+    @RequestMapping("/setmenu")
+    public Map setmenu() {
         HashMap menu = new HashMap();
-        com.zcj.vue.entity.menu menu1 = new menu();
-        com.zcj.vue.entity.menu menu2 = new menu();
-        com.zcj.vue.entity.menu menu3 = new menu();
-        com.zcj.vue.entity.menu menu4 = new menu();
-        com.zcj.vue.entity.menu menu5 = new menu();
-        com.zcj.vue.entity.menu menu6 = new menu();
+        com.zcj.vue.entity.WeloveMenu menu1 = new WeloveMenu();
+        com.zcj.vue.entity.WeloveMenu menu2 = new WeloveMenu();
+        com.zcj.vue.entity.WeloveMenu menu3 = new WeloveMenu();
+        com.zcj.vue.entity.WeloveMenu menu4 = new WeloveMenu();
+        com.zcj.vue.entity.WeloveMenu menu5 = new WeloveMenu();
+        com.zcj.vue.entity.WeloveMenu menu6 = new WeloveMenu();
         menu1.setMenuIcon("el-icon-search");
         menu1.setMenuName("搜索");
         menu1.setClassName("search check");
@@ -180,7 +186,27 @@ public class vuecontroller {
         menu.put("e", menu5);
         menu.put("f", menu6);
 
+        Iterator iterator = menu.keySet().iterator();
+        while (iterator.hasNext()) {
+            WeloveMenu weloveMenu = (WeloveMenu) menu.get(iterator.next());
+            weloveMenuDao.insertSelective(weloveMenu);
+        }
+
         return menu;
+    }
+
+
+    /**
+     * 返回菜单接口
+     *
+     * @return 菜单列表
+     */
+    @RequestMapping("/getmenu")
+    public Map getmenu() {
+        Map map = new HashMap();
+        List<WeloveMenu> allData = weloveMenuDao.getAllData();
+        map.put("data", allData);
+        return map;
     }
 
     @RequestMapping(value = "/showdetaildata", method = RequestMethod.POST)
@@ -205,12 +231,20 @@ public class vuecontroller {
 
     @RequestMapping("/pgtest")
     public void getpguser() {
-        user user = new user();
-        user.setId(1);
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(8, 8, 1000, TimeUnit.MICROSECONDS, new LinkedBlockingDeque<Runnable>());
+        Thread thread = new Thread(() -> {
+            user user = new user();
+            user.setId(1);
+            userMapper.insertuser(user);
+        });
+        for (int i = 0; i < 10; i++) {
+            threadPoolExecutor.submit(thread);
+        }
         List<com.zcj.vue.entity.user> getuser = userMapper.getuser();
         for (com.zcj.vue.entity.user user1 : getuser) {
             System.out.println(user1);
         }
+
     }
 
 }
