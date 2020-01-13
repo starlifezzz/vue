@@ -25,7 +25,7 @@
 <!--            <property name="enableSubPackages" value="false"/>-->
 <!--        </sqlMapGenerator>-->
 
-<!--        <javaClientGenerator targetPackage="com.zcj.vue.mapper" type="XMLMAPPER" targetProject=".">-->
+<!--        <javaClientGenerator targetPackage="com.zcj.vue.dao" type="XMLMAPPER" targetProject=".">-->
 <!--            <property name="enableSubPackages" value="false"/>-->
 <!--        </javaClientGenerator>-->
 

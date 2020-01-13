@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.zcj.vue.mapper.WeloveMenuDao">
+<mapper namespace="com.zcj.vue.dao.WeloveMenuDao">
     <resultMap id="BaseResultMap" type="com.zcj.vue.entity.WeloveMenu">
         <id column="id" jdbcType="BIGINT" property="id"/>
-        <result column="menu_name" jdbcType="VARCHAR" property="menuName"/>
-        <result column="class_name" jdbcType="VARCHAR" property="className"/>
+        <result column="menu_name" jdbcType="VARCHAR" property="menu_name"/>
+        <result column="class_name" jdbcType="VARCHAR" property="class_name"/>
         <result column="type" jdbcType="VARCHAR" property="type"/>
-        <result column="menu_icon" jdbcType="VARCHAR" property="menuIcon"/>
+        <result column="menu_icon" jdbcType="VARCHAR" property="menu_icon"/>
+        <result column="tree_leaf" jdbcType="INTEGER" property="tree_leaf"/>
+        <result column="parent_leaf" jdbcType="INTEGER" property="parent_leaf"/>
+        <result column="menu_url" jdbcType="VARCHAR" property="menu_url"/>
     </resultMap>
     <sql id="Base_Column_List">
-    id, menu_name, class_name, "type", menu_icon
+    id, menu_name, class_name, "type", menu_icon, tree_leaf, parent_leaf, menu_url
   </sql>
     <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
         select
@@ -17,10 +20,33 @@
         from "welove_menu"
         where id = #{id,jdbcType=BIGINT}
     </select>
-  <select id="getAllData" resultMap="BaseResultMap">
-    select <include refid="Base_Column_List"></include> from "welove_menu"
-  </select>
 
+    <select id="getAllData" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"></include> from "welove_menu"
+        <where>
+            <if test="weloveMenu.menu_name!=null">
+                menu_name=#{weloveMenu.menu_name}
+            </if>
+            <if test="weloveMenu.class_name!=null">
+                class_name=#{weloveMenu.class_name}
+            </if>
+            <if test="weloveMenu.type!=null">
+                type=#{weloveMenu.type}
+            </if>
+            <if test="weloveMenu.menu_icon!=null">
+                menu_icon=#{weloveMenu.menu_icon}
+            </if>
+            <if test="weloveMenu.tree_leaf!=null">
+                tree_leaf=#{weloveMenu.tree_leaf}
+            </if>
+            <if test="weloveMenu.parent_leaf!=null">
+                parent_leaf=#{weloveMenu.parent_leaf}
+            </if>
+        </where>
+        <if test="weloveMenu.filtername!=null">
+            ORDER BY #{weloveMenu.filtername}
+        </if>
+    </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from "welove_menu"
     where id = #{id,jdbcType=BIGINT}
@@ -28,66 +54,98 @@
     <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.zcj.vue.entity.WeloveMenu"
             useGeneratedKeys="true">
     insert into "welove_menu" (menu_name, class_name, "type",
-      menu_icon)
-    values (#{menuName,jdbcType=VARCHAR}, #{className,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
-      #{menuIcon,jdbcType=VARCHAR})
+      menu_icon, tree_leaf, parent_leaf,
+      menu_url)
+    values (#{menu_name,jdbcType=VARCHAR}, #{class_name,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR},
+      #{menu_icon,jdbcType=VARCHAR}, #{tree_leaf,jdbcType=INTEGER}, #{parent_leaf,jdbcType=INTEGER},
+      #{menu_url,jdbcType=VARCHAR})
   </insert>
     <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.zcj.vue.entity.WeloveMenu"
             useGeneratedKeys="true">
         insert into "welove_menu"
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="menuName != null">
+            <if test="menu_name != null">
                 menu_name,
             </if>
-            <if test="className != null">
+            <if test="class_name != null">
                 class_name,
             </if>
             <if test="type != null">
                 "type",
             </if>
-            <if test="menuIcon != null">
+            <if test="menu_icon != null">
                 menu_icon,
+            </if>
+            <if test="tree_leaf != null">
+                tree_leaf,
+            </if>
+            <if test="parent_leaf != null">
+                parent_leaf,
+            </if>
+            <if test="menu_url != null">
+                menu_url,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="menuName != null">
-                #{menuName,jdbcType=VARCHAR},
+            <if test="menu_name != null">
+                #{menu_name,jdbcType=VARCHAR},
             </if>
-            <if test="className != null">
-                #{className,jdbcType=VARCHAR},
+            <if test="class_name != null">
+                #{class_name,jdbcType=VARCHAR},
             </if>
             <if test="type != null">
                 #{type,jdbcType=VARCHAR},
             </if>
-            <if test="menuIcon != null">
-                #{menuIcon,jdbcType=VARCHAR},
+            <if test="menu_icon != null">
+                #{menu_icon,jdbcType=VARCHAR},
+            </if>
+            <if test="tree_leaf != null">
+                #{tree_leaf,jdbcType=INTEGER},
+            </if>
+            <if test="parent_leaf != null">
+                #{parent_leaf,jdbcType=INTEGER},
+            </if>
+            <if test="menu_url != null">
+                #{menu_url,jdbcType=VARCHAR},
             </if>
         </trim>
     </insert>
     <update id="updateByPrimaryKeySelective" parameterType="com.zcj.vue.entity.WeloveMenu">
         update "welove_menu"
         <set>
-            <if test="menuName != null">
-                menu_name = #{menuName,jdbcType=VARCHAR},
+            <if test="menu_name != null">
+                menu_name = #{menu_name,jdbcType=VARCHAR},
             </if>
-            <if test="className != null">
-                class_name = #{className,jdbcType=VARCHAR},
+            <if test="class_name != null">
+                class_name = #{class_name,jdbcType=VARCHAR},
             </if>
             <if test="type != null">
                 "type" = #{type,jdbcType=VARCHAR},
             </if>
-            <if test="menuIcon != null">
-                menu_icon = #{menuIcon,jdbcType=VARCHAR},
+            <if test="menu_icon != null">
+                menu_icon = #{menu_icon,jdbcType=VARCHAR},
+            </if>
+            <if test="tree_leaf != null">
+                tree_leaf = #{tree_leaf,jdbcType=INTEGER},
+            </if>
+            <if test="parent_leaf != null">
+                parent_leaf = #{parent_leaf,jdbcType=INTEGER},
+            </if>
+            <if test="menu_url != null">
+                menu_url = #{menu_url,jdbcType=VARCHAR},
             </if>
         </set>
         where id = #{id,jdbcType=BIGINT}
     </update>
     <update id="updateByPrimaryKey" parameterType="com.zcj.vue.entity.WeloveMenu">
     update "welove_menu"
-    set menu_name = #{menuName,jdbcType=VARCHAR},
-      class_name = #{className,jdbcType=VARCHAR},
+    set menu_name = #{menu_name,jdbcType=VARCHAR},
+      class_name = #{class_name,jdbcType=VARCHAR},
       "type" = #{type,jdbcType=VARCHAR},
-      menu_icon = #{menuIcon,jdbcType=VARCHAR}
+      menu_icon = #{menu_icon,jdbcType=VARCHAR},
+      tree_leaf = #{tree_leaf,jdbcType=INTEGER},
+      parent_leaf = #{parent_leaf,jdbcType=INTEGER},
+      menu_url = #{menu_url,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>
