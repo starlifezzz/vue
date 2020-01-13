@@ -14,7 +14,7 @@ import org.springframework.core.io.support.ResourcePatternResolver;
 import java.io.IOException;
 
 @Configuration
-@MapperScan("com.zcj.vue.mapper")
+@MapperScan("com.zcj.vue.dao")
 public class MybatiaConfig {
 
     private final durid durid;

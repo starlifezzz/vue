@@ -1,4 +1,4 @@
-package com.zcj.vue.mapper;
+package com.zcj.vue.dao;
 
 public interface StudentDao {
 }

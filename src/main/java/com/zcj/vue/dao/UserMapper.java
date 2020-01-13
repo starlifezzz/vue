@@ -1,4 +1,4 @@
-package com.zcj.vue.mapper;
+package com.zcj.vue.dao;
 
 
 import com.zcj.vue.entity.user;

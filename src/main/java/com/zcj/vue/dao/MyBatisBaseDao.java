@@ -1,4 +1,4 @@
-package com.zcj.vue.mapper;
+package com.zcj.vue.dao;
 
 import java.io.Serializable;
 import java.util.List;

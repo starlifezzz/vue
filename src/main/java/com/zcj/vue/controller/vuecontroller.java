@@ -1,12 +1,12 @@
 package com.zcj.vue.controller;
 
 
+import com.zcj.vue.dao.WeloveMenuDao;
 import com.zcj.vue.entity.WeloveMenu;
 import com.zcj.vue.entity.menu;
 import com.zcj.vue.entity.user;
-import com.zcj.vue.mapper.StudentDao;
-import com.zcj.vue.mapper.UserMapper;
-import com.zcj.vue.mapper.WeloveMenuDao;
+import com.zcj.vue.dao.StudentDao;
+import com.zcj.vue.dao.UserMapper;
 import com.zcj.vue.springcode.sona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -145,38 +145,38 @@ public class vuecontroller {
         com.zcj.vue.entity.WeloveMenu menu4 = new WeloveMenu();
         com.zcj.vue.entity.WeloveMenu menu5 = new WeloveMenu();
         com.zcj.vue.entity.WeloveMenu menu6 = new WeloveMenu();
-        menu1.setMenuIcon("el-icon-search");
-        menu1.setMenuName("搜索");
-        menu1.setClassName("search check");
+        menu1.setMenu_icon("el-icon-search");
+        menu1.setMenu_name("搜索");
+        menu1.setClass_name("search check");
         menu1.setType("");
 
-        menu2.setMenuIcon("el-icon-edit");
-        menu2.setMenuName("编辑");
-        menu2.setClassName("edit check");
+        menu2.setMenu_icon("el-icon-edit");
+        menu2.setMenu_name("编辑");
+        menu2.setClass_name("edit check");
         menu2.setType("primary");
 
 
-        menu3.setMenuIcon("el-icon-check");
-        menu3.setMenuName("成功");
-        menu3.setClassName("check");
+        menu3.setMenu_icon("el-icon-check");
+        menu3.setMenu_name("成功");
+        menu3.setClass_name("check");
         menu3.setType("success");
 
 
-        menu4.setMenuIcon("el-icon-message");
-        menu4.setMenuName("信息");
-        menu4.setClassName("message check");
+        menu4.setMenu_icon("el-icon-message");
+        menu4.setMenu_name("信息");
+        menu4.setClass_name("message check");
         menu4.setType("info");
 
 
-        menu5.setMenuIcon("el-icon-star-off");
-        menu5.setMenuName("星星");
-        menu5.setClassName("check");
+        menu5.setMenu_icon("el-icon-star-off");
+        menu5.setMenu_name("星星");
+        menu5.setClass_name("check");
         menu5.setType("warning check");
 
 
-        menu6.setMenuIcon("el-icon-delete");
-        menu6.setMenuName("删除");
-        menu6.setClassName("check");
+        menu6.setMenu_icon("el-icon-delete");
+        menu6.setMenu_name("删除");
+        menu6.setClass_name("check");
         menu6.setType("danger");
 
         menu.put("a", menu1);
@@ -202,9 +202,9 @@ public class vuecontroller {
      * @return 菜单列表
      */
     @RequestMapping("/getmenu")
-    public Map getmenu() {
+    public Map getmenu(@RequestBody WeloveMenu weloveMenu) {
         Map map = new HashMap();
-        List<WeloveMenu> allData = weloveMenuDao.getAllData();
+        List<WeloveMenu> allData = weloveMenuDao.getAllData(weloveMenu);
         map.put("data", allData);
         return map;
     }

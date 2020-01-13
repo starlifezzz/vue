@@ -1,9 +1,9 @@
-package com.zcj.vue.mapper;
+package com.zcj.vue.dao;
 
 import com.zcj.vue.entity.WeloveMenu;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 public interface WeloveMenuDao {
     int deleteByPrimaryKey(Long id);
@@ -18,5 +18,6 @@ public interface WeloveMenuDao {
 
     int updateByPrimaryKey(WeloveMenu record);
 
-    List<WeloveMenu> getAllData();
+    List<WeloveMenu> getAllData(@Param("weloveMenu")WeloveMenu weloveMenu);
+
 }
