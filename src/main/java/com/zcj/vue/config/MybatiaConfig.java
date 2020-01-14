@@ -1,7 +1,6 @@
 package com.zcj.vue.config;
 
 
-import com.sun.xml.internal.ws.api.ResourceLoader;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +18,23 @@ public class MybatiaConfig {
 
     private final durid durid;
 
+    @Autowired
     public MybatiaConfig(com.zcj.vue.config.durid durid) {
         this.durid = durid;
     }
 
-    @Autowired
+
+    @Bean
+    public org.apache.ibatis.session.Configuration configuration() {
+        org.apache.ibatis.session.Configuration configuration = new org.apache.ibatis.session.Configuration();
+        configuration.setCacheEnabled(true);
+        return configuration;
+    }
 
 
     @Bean
     public SqlSessionFactoryBean sqlSessionFactoryBean() {
-        SqlSessionFactoryBean sqlSessionFactoryBean=new SqlSessionFactoryBean();
+        SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(durid.druidDataSource());
         ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         Resource resource = resolver.getResource("static/mybatisconfig.xml");

@@ -43,8 +43,8 @@
                 parent_leaf=#{weloveMenu.parent_leaf}
             </if>
         </where>
-        <if test="weloveMenu.filtername!=null">
-            ORDER BY #{weloveMenu.filtername}
+        <if test="weloveMenu.filtername!=null and weloveMenu.filtername=='id'.toString()">
+            ORDER BY ${weloveMenu.filtername} ASC
         </if>
     </select>
     <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
