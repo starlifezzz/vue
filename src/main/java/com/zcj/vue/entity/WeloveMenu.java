@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * welove_menu
@@ -28,6 +29,8 @@ public class WeloveMenu implements Serializable {
      * 菜单url地址
      */
     private String menu_url;
+
+    private List<WeloveMenu> sonmenu;
 
     @Override
     public boolean equals(Object that) {

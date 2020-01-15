@@ -1,12 +1,12 @@
 package com.zcj.vue.controller;
 
 
+import com.zcj.vue.dao.StudentDao;
+import com.zcj.vue.dao.UserMapper;
 import com.zcj.vue.dao.WeloveMenuDao;
 import com.zcj.vue.entity.WeloveMenu;
 import com.zcj.vue.entity.menu;
 import com.zcj.vue.entity.user;
-import com.zcj.vue.dao.StudentDao;
-import com.zcj.vue.dao.UserMapper;
 import com.zcj.vue.springcode.sona;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -204,8 +204,16 @@ public class vuecontroller {
     @RequestMapping("/getmenu")
     public Map getmenu(@RequestBody WeloveMenu weloveMenu) {
         Map map = new HashMap();
-        List<WeloveMenu> allData = weloveMenuDao.getAllData(weloveMenu);
-        map.put("data", allData);
+//        List<WeloveMenu> allData = weloveMenuDao.getAllData(weloveMenu);
+        List<WeloveMenu> allData = weloveMenuDao.getAllData(new WeloveMenu());
+        List<WeloveMenu> trueMenu = new ArrayList<>();
+        for (WeloveMenu mainmenu : allData) {
+            if (mainmenu.getParent_leaf() == 0) {
+                mainmenu.setSonmenu(fenpei(allData, mainmenu.getId().intValue()));
+                trueMenu.add(mainmenu);
+            }
+        }
+        map.put("data", trueMenu);
         return map;
     }
 
@@ -246,5 +254,30 @@ public class vuecontroller {
         }
 
     }
+
+    /**
+     * 递归所有菜单节点
+     * @param weloveMenus
+     * @param id
+     * @return
+     */
+    public List fenpei(List<WeloveMenu> weloveMenus, int id) {
+        List<WeloveMenu> weloveMenus1 = new ArrayList<>();
+        if (weloveMenus.size() < 1) {
+            return null;
+        }
+        for (WeloveMenu weloveMenu : weloveMenus) {
+            if (weloveMenu.getParent_leaf() == id) {
+                if (weloveMenu.getTree_leaf() != 0) {
+                    weloveMenu.setSonmenu(fenpei(weloveMenus, weloveMenu.getId().intValue()));
+                    weloveMenus1.add(weloveMenu);
+                } else {
+                    weloveMenus1.add(weloveMenu);
+                }
+            }
+        }
+        return weloveMenus1;
+    }
+
 
 }
